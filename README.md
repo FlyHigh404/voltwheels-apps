@@ -1,6 +1,6 @@
-# voltwheels
+# Voltwheels/ZappOn
 
-A new Flutter project.
+Flutter mobile application dari Voltwheels/ZappOn
 
 ## Getting Started
 
