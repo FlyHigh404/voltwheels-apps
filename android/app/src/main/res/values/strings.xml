@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">volt-wheels</string>
+    <string name="facebook_app_id">7202157459889268</string>
+    <string name="facebook_client_token">d772440e244a1c788a44e64dd779da70</string>
+    <string name="fb_login_protocol_scheme">fb7202157459889268</string>
+</resources>

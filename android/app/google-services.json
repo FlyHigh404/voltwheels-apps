@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "446248110336",
+    "project_id": "volt-wheels-98a59",
+    "storage_bucket": "volt-wheels-98a59.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446248110336:android:2119164108c1e5732e8be5",
+        "android_client_info": {
+          "package_name": "com.voltwheels.mobile.voltwheels_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446248110336-4ogng4gko7mn5hvpr2589ojqni924g40.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voltwheels.mobile.voltwheels_mobile",
+            "certificate_hash": "a2b21a883f7dea7b30b62c60140346ee5296a38d"
+          }
+        },
+        {
+          "client_id": "446248110336-hnohbgd7cpkcunj70ihkvkq2t18un9e6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voltwheels.mobile.voltwheels_mobile",
+            "certificate_hash": "30c797f5e1e1f682ef7c7485ea54a3b014909dce"
+          }
+        },
+        {
+          "client_id": "446248110336-on9ukgn8scdoa982ni031prd1plp7chn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voltwheels.mobile.voltwheels_mobile",
+            "certificate_hash": "2ad82fd3a08c1574724cb736b9ca1bd341931877"
+          }
+        },
+        {
+          "client_id": "446248110336-rsfuc14tstuntrga7gsuhgq0lb7jla4i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voltwheels.mobile.voltwheels_mobile",
+            "certificate_hash": "a2d69d53520503f5efea0390e3b4f731aa988146"
+          }
+        },
+        {
+          "client_id": "446248110336-skp20pjos17vp7v38d2inu7fmqq5ndsf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voltwheels.mobile.voltwheels_mobile",
+            "certificate_hash": "eb9f7849cca1b54f448b493708745cbe0ac3ce53"
+          }
+        },
+        {
+          "client_id": "446248110336-o1v4qmrunfokukscnr62tl3vlmfupunk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx3o91CBCMtdhKdNI8Q0ewiBnBbz23dwk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446248110336-o1v4qmrunfokukscnr62tl3vlmfupunk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "446248110336-eok039tfnphtcvqi8j8r2f7p72kaf6sb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.voltwheels.mobile.voltwheelsMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

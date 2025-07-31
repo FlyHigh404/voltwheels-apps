@@ -1,0 +1,359 @@
+@startuml
+set namespaceSeparator ::
+
+abstract class "voltwheels_mobile::core::assets::assets.dart::Assets" {
+  {static} -String _basePath
+  {static} -String _onboardingBasePath
+  {static} +String appLogo
+  {static} +String onboarding1
+  {static} +String onboarding2
+  {static} +String onboarding3
+  {static} +String nextIcon
+  {static} +String backgroundAuth
+  {static} +String googleLogo
+  {static} +String arrowBack
+}
+
+class "voltwheels_mobile::core::error::exceptions.dart::CustomException" {
+  +String message
+}
+
+"dart::core::Exception" <|-- "voltwheels_mobile::core::error::exceptions.dart::CustomException"
+
+class "voltwheels_mobile::core::error::failures.dart::Failure" {
+  +String message
+}
+
+class "voltwheels_mobile::core::theme::app_pallete.dart::AppPallete" {
+  {static} +Color primaryColor
+  {static} +Color secondaryColor
+  {static} +Color blackColor
+  {static} +Color whiteColor
+  {static} +Color grayColor
+  {static} +Color blackGrayColor
+  {static} +Color dotColor
+  {static} +Color gradientColor
+  {static} +Color gradient2Color
+  {static} +Color sliderTextColor
+  {static} +LinearGradient primaryGradient
+}
+
+"voltwheels_mobile::core::theme::app_pallete.dart::AppPallete" o-- "dart::ui::Color"
+"voltwheels_mobile::core::theme::app_pallete.dart::AppPallete" o-- "flutter::src::painting::gradient.dart::LinearGradient"
+
+class "voltwheels_mobile::core::theme::theme.dart::AppTheme" {
+  {static} +ThemeData appTheme
+}
+
+"voltwheels_mobile::core::theme::theme.dart::AppTheme" o-- "flutter::src::material::theme_data.dart::ThemeData"
+
+abstract class "voltwheels_mobile::core::usecase::usecase.dart::UserCase" {
+  +dynamic call()
+}
+
+abstract class "voltwheels_mobile::core::usecase::usecase.dart::OnboardingCase" {
+  +Either<Failure, SuccessType> call()
+}
+
+class "voltwheels_mobile::features::auth::data::datasources::auth_remote_datasource.dart::AuthRemoteDataSource" {
+  +dynamic registerWithEmailPassword()
+  +dynamic loginWithEmailPassword()
+}
+
+class "voltwheels_mobile::features::auth::data::datasources::auth_remote_datasource.dart::AuthRemoteDatasourceImpl" {
+  +dynamic loginWithEmailPassword()
+  +dynamic registerWithEmailPassword()
+}
+
+"voltwheels_mobile::features::auth::data::datasources::auth_remote_datasource.dart::AuthRemoteDataSource" <|-- "voltwheels_mobile::features::auth::data::datasources::auth_remote_datasource.dart::AuthRemoteDatasourceImpl"
+
+class "voltwheels_mobile::features::auth::data::models::user_model.dart::UserModel" {
+}
+
+"voltwheels_mobile::features::auth::domain::entities::user.dart::User" <|-- "voltwheels_mobile::features::auth::data::models::user_model.dart::UserModel"
+
+class "voltwheels_mobile::features::auth::data::repositories::auth_repository_impl.dart::AuthRepositoryImpl" {
+  +AuthRemoteDataSource authRemoteDataSource
+  +dynamic loginWithEmailPassword()
+  +dynamic registerWithEmailPassword()
+}
+
+"voltwheels_mobile::features::auth::data::repositories::auth_repository_impl.dart::AuthRepositoryImpl" o-- "voltwheels_mobile::features::auth::data::datasources::auth_remote_datasource.dart::AuthRemoteDataSource"
+"voltwheels_mobile::features::auth::domain::repositories::auth_repository.dart::AuthRepository" <|-- "voltwheels_mobile::features::auth::data::repositories::auth_repository_impl.dart::AuthRepositoryImpl"
+
+class "voltwheels_mobile::features::auth::domain::entities::user.dart::User" {
+  +String id
+  +String name
+  +String email
+}
+
+abstract class "voltwheels_mobile::features::auth::domain::repositories::auth_repository.dart::AuthRepository" {
+  +dynamic loginWithEmailPassword()
+  +dynamic registerWithEmailPassword()
+}
+
+class "voltwheels_mobile::features::auth::domain::usecases::user_login.dart::UserLogin" {
+  +AuthRepository authRepository
+  +dynamic call()
+}
+
+"voltwheels_mobile::features::auth::domain::usecases::user_login.dart::UserLogin" o-- "voltwheels_mobile::features::auth::domain::repositories::auth_repository.dart::AuthRepository"
+"voltwheels_mobile::core::usecase::usecase.dart::UserCase" <|-- "voltwheels_mobile::features::auth::domain::usecases::user_login.dart::UserLogin"
+
+class "voltwheels_mobile::features::auth::domain::usecases::user_login.dart::UserLoginParams" {
+  +String email
+  +String password
+}
+
+class "voltwheels_mobile::features::auth::domain::usecases::user_register.dart::UserRegister" {
+  +AuthRepository authRepository
+  +dynamic call()
+}
+
+"voltwheels_mobile::features::auth::domain::usecases::user_register.dart::UserRegister" o-- "voltwheels_mobile::features::auth::domain::repositories::auth_repository.dart::AuthRepository"
+"voltwheels_mobile::core::usecase::usecase.dart::UserCase" <|-- "voltwheels_mobile::features::auth::domain::usecases::user_register.dart::UserRegister"
+
+class "voltwheels_mobile::features::auth::domain::usecases::user_register.dart::UserRegisterParams" {
+  +String name
+  +String email
+  +String password
+}
+
+class "voltwheels_mobile::features::auth::presentation::auth_login::bindings::auth_login_binding.dart::AuthLoginBinding" {
+  +void dependencies()
+}
+
+"get::get_instance::src::bindings_interface.dart::Bindings" <|-- "voltwheels_mobile::features::auth::presentation::auth_login::bindings::auth_login_binding.dart::AuthLoginBinding"
+
+class "voltwheels_mobile::features::auth::presentation::auth_login::controllers::auth_login_controller.dart::AuthLoginController" {
+  +UserLogin userLogin
+  +TextEditingController emailController
+  +TextEditingController passwordController
+  +void onInit()
+  +void dispose()
+}
+
+"voltwheels_mobile::features::auth::presentation::auth_login::controllers::auth_login_controller.dart::AuthLoginController" o-- "voltwheels_mobile::features::auth::domain::usecases::user_login.dart::UserLogin"
+"voltwheels_mobile::features::auth::presentation::auth_login::controllers::auth_login_controller.dart::AuthLoginController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "voltwheels_mobile::features::auth::presentation::auth_login::controllers::auth_login_controller.dart::AuthLoginController"
+
+class "voltwheels_mobile::features::auth::presentation::auth_login::pages::auth_login_page.dart::AuthLoginPage" {
+  +State<AuthLoginPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "voltwheels_mobile::features::auth::presentation::auth_login::pages::auth_login_page.dart::AuthLoginPage"
+
+class "voltwheels_mobile::features::auth::presentation::auth_login::pages::auth_login_page.dart::_AuthLoginPage" {
+  +double sheetPosition
+  +bool isRememberMeChecked
+  +bool isPasswordObscured
+  +AuthLoginController loginController
+  +void initState()
+  +Widget build()
+  +Widget bottomDetails()
+  +Widget formLogin()
+}
+
+"voltwheels_mobile::features::auth::presentation::auth_login::pages::auth_login_page.dart::_AuthLoginPage" o-- "voltwheels_mobile::features::auth::presentation::auth_login::controllers::auth_login_controller.dart::AuthLoginController"
+"flutter::src::widgets::framework.dart::State" <|-- "voltwheels_mobile::features::auth::presentation::auth_login::pages::auth_login_page.dart::_AuthLoginPage"
+
+class "voltwheels_mobile::features::auth::presentation::auth_register::bindings::auth_register_binding.dart::AuthRegisterBinding" {
+  +void dependencies()
+}
+
+"get::get_instance::src::bindings_interface.dart::Bindings" <|-- "voltwheels_mobile::features::auth::presentation::auth_register::bindings::auth_register_binding.dart::AuthRegisterBinding"
+
+class "voltwheels_mobile::features::auth::presentation::auth_register::controllers::auth_register_controller.dart::AuthRegisterController" {
+  +UserRegister userRegister
+  +TextEditingController nameController
+  +TextEditingController emailController
+  +TextEditingController passwordController
+  +void onInit()
+  +void dispose()
+}
+
+"voltwheels_mobile::features::auth::presentation::auth_register::controllers::auth_register_controller.dart::AuthRegisterController" o-- "voltwheels_mobile::features::auth::domain::usecases::user_register.dart::UserRegister"
+"voltwheels_mobile::features::auth::presentation::auth_register::controllers::auth_register_controller.dart::AuthRegisterController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "voltwheels_mobile::features::auth::presentation::auth_register::controllers::auth_register_controller.dart::AuthRegisterController"
+
+class "voltwheels_mobile::features::auth::presentation::auth_register::pages::auth_register_page.dart::AuthRegisterPage" {
+  +State<AuthRegisterPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "voltwheels_mobile::features::auth::presentation::auth_register::pages::auth_register_page.dart::AuthRegisterPage"
+
+class "voltwheels_mobile::features::auth::presentation::auth_register::pages::auth_register_page.dart::_AuthRegisterPage" {
+  +double sheetPosition
+  +bool isRememberMeChecked
+  +bool isPasswordObscured
+  +void initState()
+  +Widget build()
+  +Widget bottomDetails()
+  +Widget formRegister()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "voltwheels_mobile::features::auth::presentation::auth_register::pages::auth_register_page.dart::_AuthRegisterPage"
+
+abstract class "voltwheels_mobile::features::onboarding::data::datasources::onboarding_local_datasource.dart::OnboardingLocalDatasource" {
+  +List<OnboardingModel> getOnboardingContent()
+}
+
+class "voltwheels_mobile::features::onboarding::data::datasources::onboarding_local_datasource.dart::OnboardingLocalDatasourceImpl" {
+  -List<OnboardingModel> _onboardingContent
+  +List<OnboardingModel> getOnboardingContent()
+}
+
+"voltwheels_mobile::features::onboarding::data::datasources::onboarding_local_datasource.dart::OnboardingLocalDatasource" <|-- "voltwheels_mobile::features::onboarding::data::datasources::onboarding_local_datasource.dart::OnboardingLocalDatasourceImpl"
+
+class "voltwheels_mobile::features::onboarding::data::models::onboarding_model.dart::OnboardingModel" {
+}
+
+"voltwheels_mobile::features::onboarding::domain::entities::onboarding.dart::Onboarding" <|-- "voltwheels_mobile::features::onboarding::data::models::onboarding_model.dart::OnboardingModel"
+
+class "voltwheels_mobile::features::onboarding::data::repositories::onboarding_repository_impl.dart::OnboardingRepositoryImpl" {
+  +OnboardingLocalDatasource onboardingLocalDatasource
+  +Either<Failure, List<Onboarding>> getOnboardingContent()
+}
+
+"voltwheels_mobile::features::onboarding::data::repositories::onboarding_repository_impl.dart::OnboardingRepositoryImpl" o-- "voltwheels_mobile::features::onboarding::data::datasources::onboarding_local_datasource.dart::OnboardingLocalDatasource"
+"voltwheels_mobile::features::onboarding::domain::repositories::onboarding_repository.dart::OnboardingRepository" <|-- "voltwheels_mobile::features::onboarding::data::repositories::onboarding_repository_impl.dart::OnboardingRepositoryImpl"
+
+class "voltwheels_mobile::features::onboarding::domain::entities::onboarding.dart::Onboarding" {
+  +int index
+  +String? title
+  +String? description
+  +String? imagePath
+  +String? label
+}
+
+abstract class "voltwheels_mobile::features::onboarding::domain::repositories::onboarding_repository.dart::OnboardingRepository" {
+  +Either<Failure, List<Onboarding>> getOnboardingContent()
+}
+
+class "voltwheels_mobile::features::onboarding::domain::usecases::get_onboarding_content.dart::GetOnboardingContent" {
+  +OnboardingRepository onboardingRepository
+  +Either<Failure, List<Onboarding>> call()
+}
+
+"voltwheels_mobile::features::onboarding::domain::usecases::get_onboarding_content.dart::GetOnboardingContent" o-- "voltwheels_mobile::features::onboarding::domain::repositories::onboarding_repository.dart::OnboardingRepository"
+"voltwheels_mobile::core::usecase::usecase.dart::OnboardingCase" <|-- "voltwheels_mobile::features::onboarding::domain::usecases::get_onboarding_content.dart::GetOnboardingContent"
+
+class "voltwheels_mobile::features::onboarding::presentation::binding::onboarding_binding.dart::OnboardingBinding" {
+  +void dependencies()
+}
+
+"get::get_instance::src::bindings_interface.dart::Bindings" <|-- "voltwheels_mobile::features::onboarding::presentation::binding::onboarding_binding.dart::OnboardingBinding"
+
+class "voltwheels_mobile::features::onboarding::presentation::controller::onboarding_controller.dart::OnboardingController" {
+  -GetOnboardingContent _getOnboardingContent
+  +RxList<Onboarding> onboardingContent
+  +RxInt activeIndex
+  +String error
+  +void onInit()
+  +void loadContent()
+  +void updateIndex()
+}
+
+"voltwheels_mobile::features::onboarding::presentation::controller::onboarding_controller.dart::OnboardingController" o-- "voltwheels_mobile::features::onboarding::domain::usecases::get_onboarding_content.dart::GetOnboardingContent"
+"voltwheels_mobile::features::onboarding::presentation::controller::onboarding_controller.dart::OnboardingController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxList<Onboarding>"
+"voltwheels_mobile::features::onboarding::presentation::controller::onboarding_controller.dart::OnboardingController" o-- "get::get_rx::src::rx_types::rx_types.dart::RxInt"
+"get::get_state_manager::src::simple::get_controllers.dart::GetxController" <|-- "voltwheels_mobile::features::onboarding::presentation::controller::onboarding_controller.dart::OnboardingController"
+
+class "voltwheels_mobile::features::onboarding::presentation::pages::onboarding_pages.dart::OnboardingPage" {
+  +Widget build()
+}
+
+"get::get_state_manager::src::simple::get_view.dart::GetView" <|-- "voltwheels_mobile::features::onboarding::presentation::pages::onboarding_pages.dart::OnboardingPage"
+
+class "voltwheels_mobile::features::onboarding::presentation::pages::widgets::gradient_text.dart::GradientText" {
+  +String text
+  +TextStyle? style
+  +Gradient gradient
+  +Widget build()
+}
+
+"voltwheels_mobile::features::onboarding::presentation::pages::widgets::gradient_text.dart::GradientText" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"voltwheels_mobile::features::onboarding::presentation::pages::widgets::gradient_text.dart::GradientText" o-- "flutter::src::painting::gradient.dart::Gradient"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "voltwheels_mobile::features::onboarding::presentation::pages::widgets::gradient_text.dart::GradientText"
+
+class "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::background_image.dart::BackgroundImage" {
+  +String? image
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::background_image.dart::BackgroundImage"
+
+class "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::content_container.dart::ContentContainer" {
+  +String? title
+  +String? description
+  +String? label
+  +int index
+  +Widget build()
+}
+
+"get::get_state_manager::src::simple::get_view.dart::GetView" <|-- "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::content_container.dart::ContentContainer"
+
+class "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::navigation_button.dart::NavigationButtons" {
+  +int index
+  +Widget build()
+}
+
+"get::get_state_manager::src::simple::get_view.dart::GetView" <|-- "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::navigation_button.dart::NavigationButtons"
+
+class "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::onboarding_widget.dart::OnboardingWidget" {
+  +int index
+  +String? title
+  +String? description
+  +String? label
+  +String? image
+  +Widget build()
+}
+
+"get::get_state_manager::src::simple::get_view.dart::GetView" <|-- "voltwheels_mobile::features::onboarding::presentation::pages::widgets::onboarding_widget::onboarding_widget.dart::OnboardingWidget"
+
+class "voltwheels_mobile::features::splash_screen::core::enums::page_transition_type.dart::PageTransitionType" {
+  +int index
+  {static} +List<PageTransitionType> values
+  {static} +PageTransitionType fade
+  {static} +PageTransitionType rightToLeft
+  {static} +PageTransitionType leftToRight
+  {static} +PageTransitionType upToDown
+  {static} +PageTransitionType downToUp
+  {static} +PageTransitionType scale
+  {static} +PageTransitionType rotate
+  {static} +PageTransitionType size
+  {static} +PageTransitionType rightToLeftWithFade
+  {static} +PageTransitionType leftToRightWithFade
+}
+
+"voltwheels_mobile::features::splash_screen::core::enums::page_transition_type.dart::PageTransitionType" o-- "voltwheels_mobile::features::splash_screen::core::enums::page_transition_type.dart::PageTransitionType"
+"dart::core::Enum" <|-- "voltwheels_mobile::features::splash_screen::core::enums::page_transition_type.dart::PageTransitionType"
+
+class "voltwheels_mobile::features::splash_screen::core::enums::splash_transition.dart::SplashTransitionApp" {
+  +int index
+  {static} +List<SplashTransitionApp> values
+  {static} +SplashTransitionApp slideTransition
+  {static} +SplashTransitionApp scaleTransition
+  {static} +SplashTransitionApp rotationTransition
+  {static} +SplashTransitionApp sizeTransition
+  {static} +SplashTransitionApp fadeTransition
+  {static} +SplashTransitionApp decoratedBoxTransition
+}
+
+"voltwheels_mobile::features::splash_screen::core::enums::splash_transition.dart::SplashTransitionApp" o-- "voltwheels_mobile::features::splash_screen::core::enums::splash_transition.dart::SplashTransitionApp"
+"dart::core::Enum" <|-- "voltwheels_mobile::features::splash_screen::core::enums::splash_transition.dart::SplashTransitionApp"
+
+class "voltwheels_mobile::features::splash_screen::pages::splash_screen_page.dart::SplashScreenPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "voltwheels_mobile::features::splash_screen::pages::splash_screen_page.dart::SplashScreenPage"
+
+class "voltwheels_mobile::main.dart::VoltWheelsApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "voltwheels_mobile::main.dart::VoltWheelsApp"
+
+
+@enduml
